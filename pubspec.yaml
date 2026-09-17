@@ -16,6 +16,9 @@ dependencies:
 
   
   cupertino_icons: ^1.0.8
+  easy_localization: ^3.0.8
+  carousel_slider: ^5.1.2
+
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +36,7 @@ flutter:
   
   assets:
     - assets/image/
+    - assets/translations/
   
 
   # An image asset can refer to one or more resolution-specific "variants", see
