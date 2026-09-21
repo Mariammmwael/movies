@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movies/core/app_colors.dart';
+import 'package:movies/core/firebase_function.dart';
 import 'package:movies/core/validators.dart';
 import 'package:movies/core/widgets/custom_elevated_button.dart';
 import 'package:movies/core/widgets/custom_text_form_field.dart';
@@ -23,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var email = TextEditingController();
   var phone = TextEditingController();
   var repassword = TextEditingController();
+  var formKey = GlobalKey<FormState>();
   String selectedLang = 'en';
 
   final List<String> images = [
@@ -55,185 +58,219 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CarouselSlider.builder(
-                  itemCount: images.length,
+            child: Form(
+              key: formKey,
 
-                  itemBuilder: (context, index, realIndex) {
-                    final isSelected = currentIndex == index;
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: images.length,
 
-                    return GestureDetector(
-                      onTap: () {
+                    itemBuilder: (context, index, realIndex) {
+                      final isSelected = currentIndex == index;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+
+                          padding: const EdgeInsets.all(4),
+
+                          child: ClipOval(
+                            child: Image.asset(
+                              images[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      enlargeCenterPage: true,
+                      height: 130,
+                      viewportFraction: 0.50,
+                      enableInfiniteScroll: false,
+                      initialPage: 0,
+                      onPageChanged: (index, reason) {
                         setState(() {
                           currentIndex = index;
                         });
                       },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-
-                        padding: const EdgeInsets.all(4),
-
-                        child: ClipOval(
-                          child: Image.asset(images[index], fit: BoxFit.cover),
-                        ),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Center(
+                    child: Text(
+                      'Avatar',
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight(400),
+                        fontFamily: 'Roboto',
                       ),
-                    );
-                  },
-                  options: CarouselOptions(
-                    enlargeCenterPage: true,
-                    height: 130,
-                    viewportFraction: 0.50,
-                    enableInfiniteScroll: false,
-                    initialPage: 0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        currentIndex = index;
-                      });
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  CustomTextFormField(
+                    hintText: 'name'.tr(),
+                    controller: name,
+                    prefixIcon: Image.asset('assets/image/icon_name.png'),
+                    keyboardType: TextInputType.name,
+                    validator: Validators.name,
+                  ),
+                  SizedBox(height: 15),
+
+                  CustomTextFormField(
+                    hintText: 'email'.tr(),
+                    controller: email,
+                    prefixIcon: Image.asset('assets/image/email.png'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: Validators.email,
+                  ),
+                  SizedBox(height: 15),
+                  CustomTextFormField(
+                    hintText: 'password'.tr(),
+                    isPassword: true,
+                    controller: password,
+                    prefixIcon: Image.asset('assets/image/password.png'),
+                    keyboardType: TextInputType.visiblePassword,
+                    validator: Validators.password,
+                    suffixIcon: Image.asset('assets/image/Group.png'),
+                  ),
+                  SizedBox(height: 15),
+                  CustomTextFormField(
+                    hintText: 'confirm_password'.tr(),
+                    isPassword: true,
+                    controller: repassword,
+                    prefixIcon: Image.asset('assets/image/password.png'),
+                    keyboardType: TextInputType.visiblePassword,
+                    validator: (value) {
+                      return Validators.confirmPassword(value, password.text);
                     },
+                    suffixIcon: Image.asset('assets/image/Group.png'),
                   ),
-                ),
-                SizedBox(height: 8),
-                Center(
-                  child: Text(
-                    'Avatar',
-                    style: TextStyle(
-                      color: AppColors.whiteColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight(400),
-                      fontFamily: 'Roboto',
-                    ),
+                  SizedBox(height: 15),
+                  CustomTextFormField(
+                    hintText: 'phone'.tr(),
+                    controller: phone,
+                    prefixIcon: Image.asset('assets/image/phone.png'),
+                    keyboardType: TextInputType.phone,
+                    validator: Validators.phoneValidator,
                   ),
-                ),
-                SizedBox(height: 10),
-                CustomTextFormField(
-                  hintText: 'Name',
-                  controller: name,
-                  prefixIcon: Image.asset('assets/image/icon_name.png'),
-                  keyboardType: TextInputType.name,
-                  validator: Validators.name,
-                ),
-                SizedBox(height: 15),
-                CustomTextFormField(
-                  hintText: 'Email',
-                  controller: email,
-                  prefixIcon: Image.asset('assets/image/email.png'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: Validators.email,
-                ),
-                SizedBox(height: 15),
-                CustomTextFormField(
-                  hintText: 'Email',
-                  controller: email,
-                  prefixIcon: Image.asset('assets/image/email.png'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: Validators.email,
-                ),
-                SizedBox(height: 15),
-                CustomTextFormField(
-                  hintText: 'Password',
-                  isPassword: true,
-                  controller: password,
-                  prefixIcon: Image.asset('assets/image/password.png'),
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: Validators.password,
-                  suffixIcon: Image.asset('assets/image/Group.png'),
-                ),
-                SizedBox(height: 15),
-                CustomTextFormField(
-                  hintText: 'Confirm Password',
-                  isPassword: true,
-                  controller: password,
-                  prefixIcon: Image.asset('assets/image/password.png'),
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: Validators.newPassword,
-                  suffixIcon: Image.asset('assets/image/Group.png'),
-                ),
-                SizedBox(height: 15),
-                CustomTextFormField(
-                  hintText: 'Phone',
-                  controller: phone,
-                  prefixIcon: Image.asset('assets/image/phone.png'),
-                  keyboardType: TextInputType.phone,
-                  validator: Validators.phoneValidator,
-                ),
-                SizedBox(height: 15),
-                CustomElevatedButton(
-                  text: "Create Account",
-                  textStyle: TextStyle(color: Colors.black, fontSize: 20),
-                  onPressed: () {},
-                  backgroundColor: AppColors.primaryColor,
-                ),
-                SizedBox(height: 15),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: "Already Have Account ? ",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: AppColors.whiteColor,
-                      fontSize: 16,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: "Login",
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontSize: 16,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushNamed(context, LoginScreen.routeName);
-                          },
+                  SizedBox(height: 15),
+                  CustomElevatedButton(
+                    text: "create_account".tr(),
+                    textStyle: TextStyle(color: Colors.black, fontSize: 20),
+                    onPressed: () {
+                      if (!formKey.currentState!.validate()) {
+                        return;
+                      }
+
+                      FirebaseFunction.register(
+                        name.text,
+                        email.text,
+                        password.text,
+                        () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            LoginScreen.routeName,
+                            (_) => false,
+                          );
+                        },
+                        (message) {
+                          Fluttertoast.showToast(
+                            msg: message,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        },
+                      );
+                    },
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                  SizedBox(height: 15),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: "already_have_account".tr(),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: AppColors.whiteColor,
+                        fontSize: 16,
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: AppColors.primaryColor,
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        buildFlagButton(
-                          'assets/image/LR.png',
-                          isSelected: selectedLang == 'en',
-                          onTap: () {
-                            setState(() {
-                              selectedLang = 'en';
-                            });
-                            context.setLocale(const Locale('en'));
-                          },
-                          setLocale: const Locale('en'),
-                        ),
-                        const SizedBox(width: 6),
-                        buildFlagButton(
-                          'assets/image/EG.png',
-                          isSelected: selectedLang == 'ar',
-                          onTap: () {
-                            setState(() {
-                              selectedLang = 'ar';
-                            });
-                            context.setLocale(const Locale('ar'));
-                          },
-                          setLocale: const Locale('ar'),
+                        TextSpan(
+                          text: "login".tr(),
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(
+                                color: AppColors.primaryColor,
+                                fontSize: 16,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold,
+                              ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(
+                                context,
+                                LoginScreen.routeName,
+                              );
+                            },
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 15),
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          buildFlagButton(
+                            'assets/image/LR.png',
+                            isSelected: selectedLang == 'en',
+                            onTap: () {
+                              setState(() {
+                                selectedLang = 'en';
+                              });
+                              context.setLocale(const Locale('en'));
+                            },
+                            setLocale: const Locale('en'),
+                          ),
+                          const SizedBox(width: 6),
+                          buildFlagButton(
+                            'assets/image/EG.png',
+                            isSelected: selectedLang == 'ar',
+                            onTap: () {
+                              setState(() {
+                                selectedLang = 'ar';
+                              });
+                              context.setLocale(const Locale('ar'));
+                            },
+                            setLocale: const Locale('ar'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

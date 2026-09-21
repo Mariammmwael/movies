@@ -1,13 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movies/core/app_colors.dart';
+import 'package:movies/core/firebase_function.dart';
 import 'package:movies/core/validators.dart';
 import 'package:movies/core/widgets/custom_elevated_button.dart';
 import 'package:movies/core/widgets/custom_text_form_field.dart';
 import 'package:movies/core/widgets/flag_button.dart';
 import 'package:movies/core/widgets/or_divider.dart';
 import 'package:movies/features/forget_password_screen.dart';
+import 'package:movies/features/home/home_screen.dart';
 import 'package:movies/features/register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20),
                   CustomTextFormField(
                     controller: username,
-                    hintText: "Email",
+                    hintText: "email".tr(),
                     prefixIcon: Image.asset("assets/image/email.png"),
                     keyboardType: TextInputType.emailAddress,
                     validator: Validators.email,
@@ -61,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomTextFormField(
                     controller: password,
                     isPassword: true,
-                    hintText: "Password",
+                    hintText: "password".tr(),
                     prefixIcon: Image.asset("assets/image/password.png"),
                     keyboardType: TextInputType.visiblePassword,
                     validator: Validators.password,
@@ -75,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      "Forget Password?",
+                      "forget_password_question".tr(),
                       textAlign: TextAlign.end,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: AppColors.primaryColor,
@@ -87,23 +90,51 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 30),
                   CustomElevatedButton(
-                    text: "Login",
+                    text: "login".tr(),
                     textStyle: TextStyle(color: Colors.black, fontSize: 20),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (!formKey.currentState!.validate()) {
+                        return;
+                      }
+
+                      FirebaseFunction.login(
+                        username.text,
+
+                        password.text,
+                        () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            HomeScreen.routeName,
+                            (_) => false,
+                          );
+                        },
+                        (message) {
+                          Fluttertoast.showToast(
+                            msg: message,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        },
+                      );
+                    },
                     backgroundColor: AppColors.primaryColor,
                   ),
                   SizedBox(height: 20),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: "Don't have an account? ",
+                      text: "no_account".tr(),
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: AppColors.whiteColor,
                         fontSize: 16,
                       ),
                       children: [
                         TextSpan(
-                          text: "Create One",
+                          text: "create_one".tr(),
                           style: Theme.of(context).textTheme.titleLarge!
                               .copyWith(
                                 color: AppColors.primaryColor,
@@ -127,9 +158,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20),
                   CustomElevatedButton(
                     icon: Image.asset('assets/image/icon _google.png'),
-                    text: "Login With Google",
+                    text: "login_with_google".tr(),
                     textStyle: TextStyle(color: Colors.black, fontSize: 16),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final userCredential =
+                          await FirebaseFunction.signInWithGoogle();
+                      if (userCredential != null) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          HomeScreen.routeName,
+                          (_) => false,
+                        );
+                      }
+                    },
                     backgroundColor: AppColors.primaryColor,
                   ),
                   SizedBox(height: 20),
