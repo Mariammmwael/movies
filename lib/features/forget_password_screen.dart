@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movies/core/app_colors.dart';
-import 'package:movies/core/firebase_function.dart';
-import 'package:movies/core/validators.dart';
-import 'package:movies/core/widgets/custom_elevated_button.dart';
-import 'package:movies/core/widgets/custom_text_form_field.dart';
-import 'package:movies/features/login_screen.dart';
+import 'package:movieapp/core/app_colors.dart';
+import 'package:movieapp/core/firebase_function.dart';
+import 'package:movieapp/core/validators.dart';
+import 'package:movieapp/core/widgets/custom_elevated_button.dart';
+import 'package:movieapp/core/widgets/custom_text_form_field.dart';
+import 'package:movieapp/features/login_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forget_password';

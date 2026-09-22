@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/core/app_colors.dart';
+import 'package:movieapp/core/app_colors.dart';
 
 class OrDivider extends StatelessWidget {
   const OrDivider({super.key});

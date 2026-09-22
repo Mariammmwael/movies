@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:movies/core/app_colors.dart';
-import 'package:movies/core/firebase_function.dart';
-import 'package:movies/core/validators.dart';
-import 'package:movies/core/widgets/custom_elevated_button.dart';
-import 'package:movies/core/widgets/custom_text_form_field.dart';
-import 'package:movies/core/widgets/flag_button.dart';
-import 'package:movies/core/widgets/or_divider.dart';
-import 'package:movies/features/forget_password_screen.dart';
-import 'package:movies/features/home/home_screen.dart';
-import 'package:movies/features/register.dart';
+import 'package:movieapp/core/app_colors.dart';
+import 'package:movieapp/core/firebase_function.dart';
+import 'package:movieapp/core/validators.dart';
+import 'package:movieapp/core/widgets/custom_elevated_button.dart';
+import 'package:movieapp/core/widgets/custom_text_form_field.dart';
+import 'package:movieapp/core/widgets/flag_button.dart';
+import 'package:movieapp/core/widgets/or_divider.dart';
+import 'package:movieapp/features/forget_password_screen.dart';
+import 'package:movieapp/features/home/home_screen.dart';
+import 'package:movieapp/features/register.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -189,26 +189,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           buildFlagButton(
                             'assets/image/LR.png',
-                            isSelected: selectedLang == 'en',
-                            onTap: () {
-                              setState(() {
-                                selectedLang = 'en';
-                              });
-                              context.setLocale(const Locale('en'));
-                            },
-                            setLocale: const Locale('en'),
+                            isSelected: context.locale.languageCode == 'en',
+                            onTap: () => context.setLocale(const Locale('en')),
                           ),
                           const SizedBox(width: 6),
                           buildFlagButton(
                             'assets/image/EG.png',
-                            isSelected: selectedLang == 'ar',
-                            onTap: () {
-                              setState(() {
-                                selectedLang = 'ar';
-                              });
-                              context.setLocale(const Locale('ar'));
-                            },
-                            setLocale: const Locale('ar'),
+
+                            isSelected: context.locale.languageCode == 'ar',
+                            onTap: () => context.setLocale(const Locale('ar')),
                           ),
                         ],
                       ),

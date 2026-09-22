@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/features/login_screen.dart';
 import '../../core/theme/app_assets.dart';
 import '../../core/theme/app_strings.dart';
 import 'widgets/onboarding_body.dart';
@@ -15,7 +16,7 @@ class OnboardingFive extends StatelessWidget {
       nextButtonText: 'Finish',
       glowColor: Colors.grey,
       onNext: () {
-        // Finish onboarding, e.g., go to Home or Login
+        Navigator.pushNamed(context, LoginScreen.routeName);
       },
       onBack: () {
         Navigator.of(context).pop();
