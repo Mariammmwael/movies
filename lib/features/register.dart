@@ -33,7 +33,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'assets/image/user2.png',
     'assets/image/user3.png',
   ];
-
   int currentIndex = 0;
 
   @override
