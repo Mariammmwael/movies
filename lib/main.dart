@@ -8,6 +8,8 @@ import 'package:movieapp/features/login_screen.dart';
 import 'package:movieapp/features/register.dart';
 import 'package:movieapp/firebase_options.dart';
 
+import 'package:movieapp/features/movie_details/movie_details_screen.dart';
+
 import 'features/onboarding/introduction_screen.dart';
 import 'features/onboarding/onboarding_five.dart';
 import 'features/onboarding/onboarding_four.dart';
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
         '/forget_password': (context) => ForgetPasswordScreen(),
         '/register': (context) => RegisterScreen(),
         'homescreen': (context) => HomeScreen(),
+        MovieDetailsScreen.routeName: (context) => const MovieDetailsScreen(),
         SplashScreen.routeName: (context) => const SplashScreen(),
         IntroductionScreen.routeName: (context) => const IntroductionScreen(),
         OnboardingOne.routeName: (context) => const OnboardingOne(),
