@@ -11,4 +11,8 @@ class ApiService {
       queryParameters: {'query_term': query},
     );
   }
+
+  Future<Response> getMovies() {
+    return dio.get('https://movies-api.accel.li/api/v2/list_movies.json');
+  }
 }

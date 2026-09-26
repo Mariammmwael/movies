@@ -13,4 +13,12 @@ class MovieRepository {
 
     return movieModel.data?.movies ?? [];
   }
+
+  Future<List<Movies>> getMovies() async {
+    final response = await apiService.getMovies();
+
+    final movieModel = MovieModel.fromJson(response.data);
+
+    return movieModel.data?.movies ?? [];
+  }
 }
