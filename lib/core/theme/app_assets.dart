@@ -31,4 +31,18 @@ abstract class AppAssets {
   static const String eg = '${imagePath}EG.png';
   static const String civilwar = '${imagePath}civilwar.png';
   static const String avengersEndgame = '${imagePath}5f51f696241415.5eb2d19f8b3e1 1.png';
+
+  // Gamer Avatars for Update Profile Screen
+  static const String avatar1 = '${imagePath}gamer (1).png';
+  static const String avatar2 = '${imagePath}gamer (1) (1).png';
+  static const String avatar3 = '${imagePath}gamer (1) (2).png';
+  static const String avatar4 = '${imagePath}gamer (1) (3).png';
+  static const String avatar5 = '${imagePath}gamer (1) (4).png';
+  static const String avatar6 = '${imagePath}gamer (1) (5).png';
+  static const String avatar7 = '${imagePath}gamer (1) (6).png';
+  static const String avatar8 = '${imagePath}gamer (1) (7).png';
+  static const String avatar9 = '${imagePath}gamer (1) (8).png';
+
+  // Empty State Popcorn Graphic
+  static const String emptyPopcorn = '${imagePath}Empty 1.png';
 }
