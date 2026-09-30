@@ -4,7 +4,6 @@ Widget buildFlagButton(
   String assetPath, {
   required bool isSelected,
   required VoidCallback onTap,
-  // required Locale setLocale,
 }) {
   return GestureDetector(
     onTap: onTap,
