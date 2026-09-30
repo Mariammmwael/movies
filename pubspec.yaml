@@ -22,8 +22,12 @@ dependencies:
   fluttertoast: ^9.1.0
   google_sign_in: ^7.2.0
   carousel_slider: ^5.1.2
+<<<<<<< HEAD
+  http: ^1.2.1
+=======
   dio: ^5.11.1
   flutter_bloc: ^9.1.1
+>>>>>>> origin/browse-profile-updateprofile
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:movieapp/features/register.dart';
 import 'package:movieapp/firebase_options.dart';
 
 import 'package:movieapp/features/movie_details/movie_details_screen.dart';
+import 'package:movieapp/features/update_profile_screen.dart';
 
 import 'features/onboarding/introduction_screen.dart';
 import 'features/onboarding/onboarding_five.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(),
         'homescreen': (context) => HomeScreen(),
         MovieDetailsScreen.routeName: (context) => const MovieDetailsScreen(),
+        UpdateProfileScreen.routeName: (context) => const UpdateProfileScreen(),
         SplashScreen.routeName: (context) => const SplashScreen(),
         IntroductionScreen.routeName: (context) => const IntroductionScreen(),
         OnboardingOne.routeName: (context) => const OnboardingOne(),
