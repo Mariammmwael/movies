@@ -44,42 +44,33 @@ class _HomeScreenState extends State<HomeScreen> {
             items: [
               BottomNavigationBarItem(
                 label: '',
-                activeIcon: Container(
-                  child: Image.asset(
-                    "assets/image/home.png",
-                    color: AppColors.primaryColor,
-                  ),
+                activeIcon: Image.asset(
+                  "assets/image/home.png",
+                  color: AppColors.primaryColor,
                 ),
                 icon: Image.asset('assets/image/home.png'),
               ),
-
               BottomNavigationBarItem(
                 label: '',
-                activeIcon: Container(
-                  child: Image.asset(
-                    "assets/image/saerch.png",
-                    color: AppColors.primaryColor,
-                  ),
+                activeIcon: Image.asset(
+                  "assets/image/saerch.png",
+                  color: AppColors.primaryColor,
                 ),
                 icon: Image.asset('assets/image/saerch.png'),
               ),
               BottomNavigationBarItem(
                 label: '',
-                activeIcon: Container(
-                  child: Image.asset(
-                    "assets/image/browse.png",
-                    color: AppColors.primaryColor,
-                  ),
+                activeIcon: Image.asset(
+                  "assets/image/browse.png",
+                  color: AppColors.primaryColor,
                 ),
                 icon: Image.asset('assets/image/browse.png'),
               ),
               BottomNavigationBarItem(
                 label: '',
-                activeIcon: Container(
-                  child: Image.asset(
-                    "assets/image/Profiel.png",
-                    color: AppColors.primaryColor,
-                  ),
+                activeIcon: Image.asset(
+                  "assets/image/Profiel.png",
+                  color: AppColors.primaryColor,
                 ),
                 icon: Image.asset('assets/image/Profiel.png'),
               ),
